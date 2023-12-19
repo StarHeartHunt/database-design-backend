@@ -7,19 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Admin {
+  id       Int    @id @default(autoincrement())
+  account  String
+  password String
+}
+
+model Position {
+  id       Int        @id @default(autoincrement())
+  name     String
+  Employee Employee[]
+}
+
+model Employee {
+  id         Int      @id @default(autoincrement())
+  name       String
+  gender     Int
+  birthday   DateTime
+  hiredAt    DateTime
+  position   Position @relation(fields: [positionId], references: [id])
+  positionId Int
+  Order      Order[]
+}
+
+model ProductType {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Product Product[]
+}
+
+model Supplier {
+  id          Int           @id @default(autoincrement())
+  name        String
+  address     String
+  contact     String
+  Product     Product[]
+  Inventory   Inventory[]
+  OrderDetail OrderDetail[]
+}
+
 model Product {
-  id                Int      @id @default(autoincrement())
-  name              String   @db.VarChar(255)
-  price             Int
-  barCode           String
-  discountPrice     Float
-  discountStartedAt DateTime
-  discountEndedAt   DateTime
-  canDiscounted     Boolean
-  stockNum          Int
-  stockWarnNum      Int
-  stockPlanNum      Int
-  canSold           Boolean
-  vendorId          Int
-  manufacturerId    Int
+  id            Int           @id @default(autoincrement())
+  name          String
+  price         Float
+  productTypeId Int
+  supplierId    Int
+  ProductType   ProductType   @relation(fields: [productTypeId], references: [id])
+  Supplier      Supplier      @relation(fields: [supplierId], references: [id])
+  OrderDetail   OrderDetail[]
+  Inventory     Inventory[]
+}
+
+model Inventory {
+  productId        Int      @id
+  supplierId       Int
+  unitPrice        Float
+  quantity         Int
+  firstPurchaseAt  DateTime
+  latestPurchaseAt DateTime
+  latestSaleAt     DateTime
+  Product          Product  @relation(fields: [productId], references: [id])
+  Supplier         Supplier @relation(fields: [supplierId], references: [id])
+}
+
+model Order {
+  id          Int           @id @default(autoincrement())
+  employeeId  Int
+  date        DateTime
+  Employee    Employee      @relation(fields: [employeeId], references: [id])
+  OrderDetail OrderDetail[]
+}
+
+model OrderDetail {
+  orderId    Int      @id
+  productId  Int
+  supplierId Int
+  quantity   Int
+  Order      Order    @relation(fields: [orderId], references: [id])
+  Product    Product  @relation(fields: [productId], references: [id])
+  Supplier   Supplier @relation(fields: [supplierId], references: [id])
 }
