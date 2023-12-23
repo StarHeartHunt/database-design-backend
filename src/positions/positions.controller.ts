@@ -29,7 +29,7 @@ export class PositionsController {
   }
 
   @Get()
-  @ApiOkResponse({ type: ResponsePositionDto, isArray: true })
+  @ApiOkResponse({ type: ResponsePositionDto })
   findAll() {
     return this.positionsService.findAll();
   }

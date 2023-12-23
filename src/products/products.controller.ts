@@ -29,7 +29,7 @@ export class ProductsController {
   }
 
   @Get()
-  @ApiOkResponse({ type: ResponseProductDto, isArray: true })
+  @ApiOkResponse({ type: ResponseProductDto })
   findAll() {
     return this.productsService.findAll();
   }
