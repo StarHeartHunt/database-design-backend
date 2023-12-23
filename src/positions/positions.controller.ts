@@ -15,7 +15,8 @@ import { UpdatePositionDto } from './dto/update-position.dto';
 import { PositionEntity } from './entities/position.entity';
 import { PositionsService } from './positions.service';
 
-class ResponsePositionDto extends withBaseResponse(PositionEntity, {}) {}
+class ResponsePositionDto extends withBaseResponse(PositionEntity, {}, true) {}
+class ResponseSinglePositionDto extends withBaseResponse(PositionEntity, {}) {}
 
 @Controller('positions')
 @ApiTags('positions')
@@ -23,7 +24,7 @@ export class PositionsController {
   constructor(private readonly positionsService: PositionsService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: ResponsePositionDto })
+  @ApiCreatedResponse({ type: ResponseSinglePositionDto })
   create(@Body() createPositionDto: CreatePositionDto) {
     return this.positionsService.create(createPositionDto);
   }
@@ -35,13 +36,13 @@ export class PositionsController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: ResponsePositionDto })
+  @ApiOkResponse({ type: ResponseSinglePositionDto })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.positionsService.findOne(id);
   }
 
   @Patch(':id')
-  @ApiOkResponse({ type: ResponsePositionDto })
+  @ApiOkResponse({ type: ResponseSinglePositionDto })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePositionDto: UpdatePositionDto,
@@ -50,7 +51,7 @@ export class PositionsController {
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: ResponsePositionDto })
+  @ApiOkResponse({ type: ResponseSinglePositionDto })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.positionsService.remove(id);
   }

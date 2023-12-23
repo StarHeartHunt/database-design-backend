@@ -15,17 +15,18 @@ export class Response<T> {
 
 type Constructor<T = unknown> = new (...args: any[]) => T;
 
-export function withBaseResponse<TBase extends Constructor>(
+export function withBaseResponse<TBase extends Constructor, B extends boolean>(
   Base: TBase,
   options?: ApiPropertyOptions | undefined,
+  arrayLikeData?: B,
 ) {
   class ResponseDTO {
     @ApiProperty({
-      isArray: true,
+      isArray: arrayLikeData,
       type: Base,
       ...options,
     })
-    data!: Array<InstanceType<TBase>>;
+    data!: B extends true ? Array<InstanceType<TBase>> : InstanceType<TBase>;
   }
   return mixin(ResponseDTO);
 }

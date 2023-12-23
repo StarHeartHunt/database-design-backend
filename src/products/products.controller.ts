@@ -15,7 +15,8 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductEntity } from './entities/product.entity';
 import { ProductsService } from './products.service';
 
-class ResponseProductDto extends withBaseResponse(ProductEntity, {}) {}
+class ResponseProductDto extends withBaseResponse(ProductEntity, {}, true) {}
+class ResponseSingleProductDto extends withBaseResponse(ProductEntity, {}) {}
 
 @Controller('products')
 @ApiTags('products')
@@ -23,7 +24,7 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: ResponseProductDto })
+  @ApiCreatedResponse({ type: ResponseSingleProductDto })
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
@@ -35,13 +36,13 @@ export class ProductsController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: ResponseProductDto })
+  @ApiOkResponse({ type: ResponseSingleProductDto })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.findOne(id);
   }
 
   @Patch(':id')
-  @ApiOkResponse({ type: ResponseProductDto })
+  @ApiOkResponse({ type: ResponseSingleProductDto })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto,
@@ -50,7 +51,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: ResponseProductDto })
+  @ApiOkResponse({ type: ResponseSingleProductDto })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.remove(id);
   }
