@@ -20,9 +20,9 @@ export class ProductsService {
     });
 
     if (!productType || !supplier)
-      throw new UnprocessableEntityException(
+      throw new UnprocessableEntityException([
         `Product type or supplier not created. Found productType: ${productType}, supplier: ${supplier}`,
-      );
+      ]);
 
     return await this.prisma.product.create({
       data: createProductDto,
