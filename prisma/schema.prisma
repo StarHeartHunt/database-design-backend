@@ -59,7 +59,7 @@ model Product {
 }
 
 model Inventory {
-  productId        Int      @id
+  productId        Int      @id @default(autoincrement())
   supplierId       Int
   unitPrice        Float
   quantity         Int
@@ -79,11 +79,18 @@ model Order {
 }
 
 model OrderDetail {
-  orderId    Int      @id
+  orderId    Int      @id @default(autoincrement())
   productId  Int
   supplierId Int
   quantity   Int
   Order      Order    @relation(fields: [orderId], references: [id])
   Product    Product  @relation(fields: [productId], references: [id])
   Supplier   Supplier @relation(fields: [supplierId], references: [id])
+}
+
+model Customer {
+  id      Int    @id @default(autoincrement())
+  name    String
+  address String
+  contact String
 }
