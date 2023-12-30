@@ -4,10 +4,6 @@ import { IsNotEmpty } from 'class-validator';
 export class CreateStockInfoDto {
   @ApiProperty()
   @IsNotEmpty()
-  name: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
   productId: number;
 
   @ApiProperty()
