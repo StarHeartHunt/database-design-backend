@@ -16,17 +16,17 @@ export class PositionsService {
   }
 
   findOne(id: number) {
-    return this.prisma.position.findUnique({ where: { id: id } });
+    return this.prisma.position.findUnique({ where: { id } });
   }
 
   update(id: number, updatePositionDto: UpdatePositionDto) {
     return this.prisma.position.update({
-      where: { id: id },
+      where: { id },
       data: updatePositionDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.position.delete({ where: { id: id } });
+    return this.prisma.position.delete({ where: { id } });
   }
 }
