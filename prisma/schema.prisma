@@ -25,7 +25,7 @@ model Employee {
   gender     Int
   birthday   DateTime
   hiredAt    DateTime
-  position   Position @relation(fields: [positionId], references: [id])
+  position   Position @relation(fields: [positionId], references: [id], onDelete: Cascade)
   positionId Int
   Order      Order[]
 }
@@ -53,8 +53,8 @@ model Product {
   price         Float
   productTypeId Int
   supplierId    Int
-  ProductType   ProductType   @relation(fields: [productTypeId], references: [id])
-  Supplier      Supplier      @relation(fields: [supplierId], references: [id])
+  ProductType   ProductType   @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+  Supplier      Supplier      @relation(fields: [supplierId], references: [id], onDelete: Cascade)
   OrderDetail   OrderDetail[]
   Inventory     Inventory[]
   StockInfo     StockInfo[]
@@ -67,8 +67,8 @@ model StockInfo {
   unitPrice    Float
   quantity     Int
   purchaseDate DateTime
-  Product      Product  @relation(fields: [productId], references: [id])
-  Supplier     Supplier @relation(fields: [supplierId], references: [id])
+  Product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  Supplier     Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 }
 
 model Inventory {
@@ -79,8 +79,8 @@ model Inventory {
   firstPurchaseAt  DateTime
   latestPurchaseAt DateTime
   latestSaleAt     DateTime
-  Product          Product  @relation(fields: [productId], references: [id])
-  Supplier         Supplier @relation(fields: [supplierId], references: [id])
+  Product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  Supplier         Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 
   @@id([productId, supplierId])
 }
@@ -89,7 +89,7 @@ model Order {
   id          Int           @id @default(autoincrement())
   employeeId  Int
   date        DateTime
-  Employee    Employee      @relation(fields: [employeeId], references: [id])
+  Employee    Employee      @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   OrderDetail OrderDetail[]
 }
 
@@ -98,7 +98,7 @@ model OrderDetail {
   productId  Int
   supplierId Int
   quantity   Int
-  Order      Order    @relation(fields: [orderId], references: [id])
-  Product    Product  @relation(fields: [productId], references: [id])
-  Supplier   Supplier @relation(fields: [supplierId], references: [id])
+  Order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  Product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  Supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 }
